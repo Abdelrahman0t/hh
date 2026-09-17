@@ -1,0 +1,445 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO MY HEBA</title>
+    <style>
+        :root {
+            --primary: #9d50bb;
+            --accent: #e0aaff;
+            --bg: #0b091a;
+            --surface: rgba(20, 15, 35, 0.98);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+            padding: 2.5rem;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 60px rgba(157, 80, 187, 0.5);
+            text-align: center;
+            max-height: 95vh;
+            /* Hide scrollbar for IE, Edge and Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+            overflow-y: auto;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* --- THE EMOTIVE DIGITAL FACE --- */
+        .face-box {
+            width: 140px;
+            height: 110px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        .eyebrows-container {
+            display: flex;
+            gap: 45px;
+            width: 100%;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .eyebrow {
+            width: 25px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--primary);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .eyes-container {
+            display: flex;
+            gap: 40px;
+        }
+
+        .eye {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 5px;
+            box-shadow: 0 0 15px var(--primary);
+            animation: blink 4.5s infinite;
+            transition: all 0.4s ease;
+        }
+
+        .mouth-line {
+            width: 50px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--primary);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes blink {
+
+            0%,
+            90%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            93%,
+            97% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05) translateY(-5px);
+            }
+        }
+
+        .talking .mouth-line {
+            animation: speak-move 0.12s infinite alternate ease-in-out;
+        }
+
+        @keyframes speak-move {
+            0% {
+                transform: scaleY(1);
+            }
+
+            100% {
+                transform: scaleY(4);
+            }
+        }
+
+        .is-sad .eyebrows-container {
+            opacity: 1;
+        }
+
+        .is-sad .brow-l {
+            transform: rotate(20deg) translateY(8px);
+        }
+
+        .is-sad .brow-r {
+            transform: rotate(-20deg) translateY(8px);
+        }
+
+        .is-sad .eye {
+            transform: scaleY(0.6) translateY(5px);
+            opacity: 0.7;
+        }
+
+        .is-sad .mouth-line {
+            border-radius: 50% 50% 0 0;
+            height: 8px;
+            width: 35px;
+        }
+
+        .is-happy .eyebrows-container {
+            opacity: 1;
+        }
+
+        .is-happy .eyebrow {
+            transform: translateY(-15px);
+        }
+
+        .is-happy .eye {
+            transform: scale(1.2);
+            box-shadow: 0 0 25px var(--accent);
+        }
+
+        .is-happy .mouth-line {
+            height: 22px;
+            width: 60px;
+            border-radius: 0 0 60px 60px;
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        #text-box {
+            font-size: 1.15rem;
+            color: #efefff;
+            min-height: 5.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 16px 22px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: 0.3s;
+            flex: 1;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--primary);
+            box-shadow: 0 0 20px var(--primary);
+            transform: translateY(-3px);
+        }
+
+        button:disabled {
+            opacity: 0.2;
+            cursor: default;
+        }
+
+        .btn-n {
+            border-color: #444;
+            color: #aaa;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .email-layout {
+            text-align: left;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        .hero-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 2px solid var(--primary);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+        <div class="face-box" id="face">
+            <div class="eyebrows-container" id="brows">
+                <div class="eyebrow brow-l"></div>
+                <div class="eyebrow brow-r"></div>
+            </div>
+            <div class="eyes-container">
+                <div class="eye"></div>
+                <div class="eye"></div>
+            </div>
+            <div class="mouth-line"></div>
+        </div>
+
+        <div id="setup-view">
+            <div id="text-box"></div>
+            <div class="btn-row">
+                <button id="y-btn" onclick="handle(true)">YES, CONTINUE!</button>
+                <button id="n-btn" class="btn-n" onclick="handle(false)">NO, STOP</button>
+            </div>
+        </div>
+
+        <div id="email-view" class="hidden email-layout">
+            <img src="us.jpg" class="hero-img">
+            <div style="color:var(--accent); font-weight:bold; margin-bottom:10px;">SUBJECT: HAPPY BIRTHDAY SHAWTY</div>
+            <div style="line-height: 1.8; color: #efefff;">
+                <p>Hi babe!</p><br>
+                <p>I'm so glad we pushed through everything. I really wanted to show you this.</p><br>
+                <p><strong>First of all, I'm sorry for everything I put you through—everything I put US through. I never
+                        wanted to be absent on your birthday, but God has His way of doing things. I know you don't
+                        really like your birthday, but I don't either, and I still got those kick-ass Minecraft lanterns
+                        (thanks again, btw). Second of all, there's really nothing new to say—I've already expressed
+                        more than once how much I like everything about you and how grateful I am that I met you,
+                        especially since I met you when I was in a very dark place. So, thank you for being here and
+                        thank you for being you. Third of all, I don't know if you noticed, but after a full month of
+                        knowing you, I can confirm that you are already my favorite person. I really enjoyed doing this,
+                        even if I'd be called cringe if this got out but who cares, right? Finally, I wish you a happy
+                        year and a life full of joy. I hope we stay beside each other so I have more chances to ragebait
+                        you and to see that beautiful smile again and again.</strong></p>
+                <p>ANOTHER NOTE: Wrote this listening to Joji, so I think you're already stuck with me at this point.
+                </p><br>
+                <p>Always here,<br><s>Your Daddy</s> (بهزر خلاص) . ABDELRAHMAN</p>
+            </div>
+            <button onclick="location.reload()" style="margin-top:20px; width:100%; border-style:dashed">Restart
+                System</button>
+        </div>
+
+        <script>
+            let phase = 1;
+            let active = false;
+
+            const content = {
+                1: "Hey! I've been working on a special surprise. and i'm saying special not because it's a big of a deal i just never done this for anyone before so it's kinda new to me and maybe corny. but why not! special things for special person i guess. Want to see it?",
+                2: "but first you will need to answer the question right this time. وحشتك ؟",
+                3: "Awwww, وانتي اكتر يقمر. I know it's already too late your birthday was 3 days ago but you had to post on tik tok, sigh. felt like i can just buy a خمار or something. but instead had to show the benefits of being a gf to a software eng. hope you don't throw this to your sister like the chess يحيووانة",
+                4: "NOTE : the writing took me more than the coding because i know how to code but don't know how اصالح shawty because she love being a mystery. but it's ok i can get used to that. Ready to open the vault?",
+                sad1: "come onn i coded this for an almost hour and half you know! just give it a shot",
+                sad2: "ببسسس يا كداااابة مفيش غير اجابة صح جاوبيها",
+                sad3: "how the fuck are you gonna do that it's a degital gift. اي رخامة وخلاص",
+                sad4: "كنت عارفف والله بتدوري على عركة وخلاص. خلي عندك دم وافتحي الهدية بدل ما ابعت سايت تاني بيقول اني يور داددي"
+            };
+
+            const btns = {
+                y: ["YES, CONTINUE!", "MORE THAN YOU THINK!", "ALREADY LIKE IT. SHOW ME!", "I'M FLIRTED. GO ON"],
+                n: ["NO, STOP", "EW NO!", "I WILL THROW IT", "قصدك اني نكدية؟"],
+                sadBtn: ["Okay, fine...", "i miss you asf . ماشي يا عم خلاص", "UGHH FINE WHATEVER...", " لا خلاص خلاص افتح"]
+            };
+
+            function speak(text, isError = false) {
+                active = true;
+                const tb = document.getElementById('text-box');
+                const f = document.getElementById('face');
+                const yb = document.getElementById('y-btn');
+                const nb = document.getElementById('n-btn');
+
+                tb.innerHTML = "";
+                f.classList.remove('talking', 'is-happy');
+                if (!isError) f.classList.remove('is-sad');
+
+                void f.offsetWidth;
+
+                if (isError) {
+                    f.classList.add('is-sad');
+                    nb.classList.add('hidden');
+                    yb.innerText = btns.sadBtn[phase - 1] || "Okay, let's go!";
+                } else {
+                    nb.classList.remove('hidden');
+                    yb.innerText = btns.y[phase - 1] || "CONTINUE";
+                    nb.innerText = btns.n[phase - 1] || "ABORT";
+                }
+
+                f.classList.add('talking');
+                yb.disabled = true; nb.disabled = true;
+
+                let i = 0;
+                function type() {
+                    if (i < text.length) {
+                        tb.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 40);
+                    } else {
+                        active = false;
+                        f.classList.remove('talking');
+                        yb.disabled = false; nb.disabled = false;
+                    }
+                }
+                type();
+            }
+
+            function handle(choice) {
+                if (active) return;
+                const face = document.getElementById('face');
+
+                if (choice) {
+                    face.classList.remove('is-sad');
+                    face.classList.add('is-happy');
+
+                    setTimeout(() => {
+                        if (phase < 4) {
+                            phase++;
+                            speak(content[phase]);
+                        } else {
+                            document.getElementById('setup-view').classList.add('hidden');
+                            document.getElementById('email-view').classList.remove('hidden');
+                            face.classList.add('is-happy');
+                            burst();
+                        }
+                    }, 1200);
+                } else {
+                    speak(content['sad' + phase], true);
+                }
+            }
+
+            // --- BACKGROUND ---
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            let dots = [];
+            function res() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            window.addEventListener('resize', res); res();
+            class Dot {
+                constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.r = Math.random() * 3 + 1; this.vx = Math.random() * 0.4 - 0.2; this.vy = Math.random() * 0.4 - 0.2; }
+                u() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > canvas.width) this.vx *= -1; if (this.y < 0 || this.y > canvas.height) this.vy *= -1; }
+                d() { ctx.fillStyle = '#9d50bb'; ctx.globalAlpha = 0.5; ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, 7); ctx.fill(); }
+            }
+            for (let i = 0; i < 80; i++) dots.push(new Dot());
+            function frame() { ctx.clearRect(0, 0, canvas.width, canvas.height); dots.forEach(d => { d.u(); d.d(); }); requestAnimationFrame(frame); }
+            function burst() { dots.forEach(d => { d.vx *= 22; d.vy *= 22; }); }
+            frame();
+
+            window.onload = () => speak(content[1]);
+        </script>
+</body>
+
+</html>
