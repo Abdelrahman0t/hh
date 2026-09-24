@@ -294,11 +294,11 @@ export const story = {
     badge: "THE FINAL CHAPTER ❤️",
     title: "As i said",
     text: "you're truly my favorite person in the whole universe. so i'll take every risk i can to find you again. so i'll be in area 51 at 5 on saturday as you know so i'll ask you this",
-    cat: "/cats/pleasecat.gif",
+    cat: "/cats/flowercat.gif ",
     replayBtn: "replay from the beginning 🐾",
     proposal: {
       question: "will you go out with me cupcake?",
-      gif: "/cats/flowercat.gif",
+      gif: "/cats/pleasecat.gif",
       yesBtn: "yes",
       noBtn: "no",
       acceptedTitle: "she said yes!!! 🎉",
